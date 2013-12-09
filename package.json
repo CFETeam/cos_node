@@ -1,0 +1,24 @@
+{
+  "name": "cos",
+  "version": "0.0.1",
+  "description": "Tencent COS SDK.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/puterjam/cos"
+  },
+  "keywords": [
+    "tencent",
+    "cos",
+    "sdk"
+  ],
+  "author": "PuterJam",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/puterjam/cos/issues"
+  },
+  "homepage": "https://github.com/puterjam/cos"
+}
