@@ -1,0 +1,136 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   '--registry=http://registry.npmjs.org',
+1 verbose cli   'publish',
+1 verbose cli   '--force' ]
+2 info using npm@1.3.14
+3 info using node@v0.10.22
+4 warn using --force I sure hope you know what you are doing.
+5 verbose publish [ '.' ]
+6 verbose cache add [ '.', null ]
+7 verbose cache add name=undefined spec="." args=[".",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: '.',
+8 verbose parsed url   path: '.',
+8 verbose parsed url   href: '.' }
+9 silly lockFile 3a52ce78- .
+10 verbose lock . /Users/PuterJam/.npm/3a52ce78-.lock
+11 verbose tar pack [ '/var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz',
+11 verbose tar pack   '.' ]
+12 verbose tarball /var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz
+13 verbose folder .
+14 info prepublish cos@0.0.4
+15 silly lockFile 1f1177db-tar tar://.
+16 verbose lock tar://. /Users/PuterJam/.npm/1f1177db-tar.lock
+17 silly lockFile 74345a95-53112-0-7535667361225933-tmp-tgz tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz
+18 verbose lock tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz /Users/PuterJam/.npm/74345a95-53112-0-7535667361225933-tmp-tgz.lock
+19 silly lockFile 1f1177db-tar tar://.
+20 silly lockFile 1f1177db-tar tar://.
+21 silly lockFile 74345a95-53112-0-7535667361225933-tmp-tgz tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz
+22 silly lockFile 74345a95-53112-0-7535667361225933-tmp-tgz tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz
+23 verbose tar unpack /var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz
+24 silly lockFile 0d39df88-53112-0-7535667361225933-package tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package
+25 verbose lock tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package /Users/PuterJam/.npm/0d39df88-53112-0-7535667361225933-package.lock
+26 silly lockFile 74345a95-53112-0-7535667361225933-tmp-tgz tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz
+27 verbose lock tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz /Users/PuterJam/.npm/74345a95-53112-0-7535667361225933-tmp-tgz.lock
+28 silly gunzTarPerm modes [ '755', '644' ]
+29 silly gunzTarPerm extractEntry package.json
+30 silly gunzTarPerm extractEntry README.md
+31 silly gunzTarPerm extractEntry LICENSE
+32 silly gunzTarPerm extractEntry cos.js
+33 silly gunzTarPerm extractEntry MakeFile
+34 silly gunzTarPerm extractEntry lib/sign.js
+35 silly gunzTarPerm extractEntry test/cos_test.js
+36 silly gunzTarPerm extractEntry test/sign_test.js
+37 silly lockFile 0d39df88-53112-0-7535667361225933-package tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package
+38 silly lockFile 0d39df88-53112-0-7535667361225933-package tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package
+39 silly lockFile 74345a95-53112-0-7535667361225933-tmp-tgz tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz
+40 silly lockFile 74345a95-53112-0-7535667361225933-tmp-tgz tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/tmp.tgz
+41 verbose tar pack [ '/Users/PuterJam/.npm/cos/0.0.4/package.tgz',
+41 verbose tar pack   '/var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package' ]
+42 verbose tarball /Users/PuterJam/.npm/cos/0.0.4/package.tgz
+43 verbose folder /var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package
+44 silly lockFile 0d39df88-53112-0-7535667361225933-package tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package
+45 verbose lock tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package /Users/PuterJam/.npm/0d39df88-53112-0-7535667361225933-package.lock
+46 silly lockFile 625ed48b-terJam-npm-cos-0-0-4-package-tgz tar:///Users/PuterJam/.npm/cos/0.0.4/package.tgz
+47 verbose lock tar:///Users/PuterJam/.npm/cos/0.0.4/package.tgz /Users/PuterJam/.npm/625ed48b-terJam-npm-cos-0-0-4-package-tgz.lock
+48 silly lockFile 0d39df88-53112-0-7535667361225933-package tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package
+49 silly lockFile 0d39df88-53112-0-7535667361225933-package tar:///var/folders/cc/kk2b6ls92b5g34rw9ylpl1nm0000gn/T/npm-83524-KV1hNHc1/1386669553112-0.7535667361225933/package
+50 silly lockFile 625ed48b-terJam-npm-cos-0-0-4-package-tgz tar:///Users/PuterJam/.npm/cos/0.0.4/package.tgz
+51 silly lockFile 625ed48b-terJam-npm-cos-0-0-4-package-tgz tar:///Users/PuterJam/.npm/cos/0.0.4/package.tgz
+52 silly lockFile 2331a938-s-PuterJam-npm-cos-0-0-4-package /Users/PuterJam/.npm/cos/0.0.4/package
+53 verbose lock /Users/PuterJam/.npm/cos/0.0.4/package /Users/PuterJam/.npm/2331a938-s-PuterJam-npm-cos-0-0-4-package.lock
+54 silly lockFile 2331a938-s-PuterJam-npm-cos-0-0-4-package /Users/PuterJam/.npm/cos/0.0.4/package
+55 silly lockFile 2331a938-s-PuterJam-npm-cos-0-0-4-package /Users/PuterJam/.npm/cos/0.0.4/package
+56 verbose tar unpack /Users/PuterJam/.npm/cos/0.0.4/package.tgz
+57 silly lockFile 4e8e3680-s-PuterJam-npm-cos-0-0-4-package tar:///Users/PuterJam/.npm/cos/0.0.4/package
+58 verbose lock tar:///Users/PuterJam/.npm/cos/0.0.4/package /Users/PuterJam/.npm/4e8e3680-s-PuterJam-npm-cos-0-0-4-package.lock
+59 silly lockFile 625ed48b-terJam-npm-cos-0-0-4-package-tgz tar:///Users/PuterJam/.npm/cos/0.0.4/package.tgz
+60 verbose lock tar:///Users/PuterJam/.npm/cos/0.0.4/package.tgz /Users/PuterJam/.npm/625ed48b-terJam-npm-cos-0-0-4-package-tgz.lock
+61 silly gunzTarPerm modes [ '755', '644' ]
+62 silly gunzTarPerm extractEntry package.json
+63 silly gunzTarPerm extractEntry README.md
+64 silly gunzTarPerm extractEntry LICENSE
+65 silly gunzTarPerm extractEntry cos.js
+66 silly gunzTarPerm extractEntry MakeFile
+67 silly gunzTarPerm extractEntry lib/sign.js
+68 silly gunzTarPerm extractEntry test/cos_test.js
+69 silly gunzTarPerm extractEntry test/sign_test.js
+70 silly lockFile 4e8e3680-s-PuterJam-npm-cos-0-0-4-package tar:///Users/PuterJam/.npm/cos/0.0.4/package
+71 silly lockFile 4e8e3680-s-PuterJam-npm-cos-0-0-4-package tar:///Users/PuterJam/.npm/cos/0.0.4/package
+72 silly lockFile 625ed48b-terJam-npm-cos-0-0-4-package-tgz tar:///Users/PuterJam/.npm/cos/0.0.4/package.tgz
+73 silly lockFile 625ed48b-terJam-npm-cos-0-0-4-package-tgz tar:///Users/PuterJam/.npm/cos/0.0.4/package.tgz
+74 verbose chmod /Users/PuterJam/.npm/cos/0.0.4/package.tgz 644
+75 verbose chown /Users/PuterJam/.npm/cos/0.0.4/package.tgz [ 501, 20 ]
+76 silly lockFile 3a52ce78- .
+77 silly lockFile 3a52ce78- .
+78 silly publish { name: 'cos',
+78 silly publish   version: '0.0.4',
+78 silly publish   description: 'Tencent COS SDK.',
+78 silly publish   main: 'cos.js',
+78 silly publish   scripts: { test: 'nodeunit ./test/' },
+78 silly publish   repository: { type: 'git', url: 'http://github.com/puterjam/cos_node' },
+78 silly publish   keywords: [ 'tencent', 'cos', 'sdk' ],
+78 silly publish   dependencies: { request: '>= 2.x' },
+78 silly publish   author: { name: 'PuterJam' },
+78 silly publish   readmeFilename: 'README.md',
+78 silly publish   license:
+78 silly publish    [ { type: 'Apache 2.0',
+78 silly publish        url: 'http://www.apache.org/licenses/LICENSE-2.0.html' } ],
+78 silly publish   bugs: { url: 'https://github.com/puterjam/cos/issues' },
+78 silly publish   homepage: 'https://github.com/puterjam/cos',
+78 silly publish   directories: { test: 'test' },
+78 silly publish   devDependencies: {},
+78 silly publish   readme: 'Tencent QCloud COS SDK for Node.JS.\n==========\n\n#### 简介\n\n**COS SDK** 是腾讯云服务器的COS的Node.JS版本的SDK\n\n****\n\n#### LICENSE\nhttp://opensource.org/licenses/BSD-2-Clause\n',
+78 silly publish   _id: 'cos@0.0.4',
+78 silly publish   dist: { shasum: 'a0dffb7eb73a05f757f607d78c9673cd54f52a16' },
+78 silly publish   _from: '.' }
+79 verbose url raw cos
+80 verbose url resolving [ 'http://registry.npmjs.org/', './cos' ]
+81 verbose url resolved http://registry.npmjs.org/cos
+82 error publish Failed PUT response undefined
+83 error network getaddrinfo ENOTFOUND
+83 error network This is most likely not a problem with npm itself
+83 error network and is related to network connectivity.
+83 error network In most cases you are behind a proxy or have bad network settings.
+83 error network
+83 error network If you are behind a proxy, please make sure that the
+83 error network 'proxy' config is set properly.  See: 'npm help config'
+84 error System Darwin 13.0.0
+85 error command "node" "/usr/local/bin/npm" "--registry=http://registry.npmjs.org" "publish" "--force"
+86 error cwd /Users/PuterJam/Labs/git/cos_node
+87 error node -v v0.10.22
+88 error npm -v 1.3.14
+89 error syscall getaddrinfo
+90 error code ENOTFOUND
+91 error errno ENOTFOUND
+92 verbose exit [ 1, true ]

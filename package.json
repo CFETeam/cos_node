@@ -1,24 +1,37 @@
 {
   "name": "cos",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Tencent COS SDK.",
-  "main": "index.js",
+  "main": "cos.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodeunit ./test/"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/puterjam/cos"
+    "url": "http://github.com/puterjam/cos_node"
   },
   "keywords": [
     "tencent",
     "cos",
     "sdk"
   ],
+  "dependencies": {
+    "request": ">= 2.x"
+  },
   "author": "PuterJam",
-  "license": "BSD-2-Clause",
+  "readmeFilename": "README.md",
+  "license": [
+    {
+      "type": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/puterjam/cos/issues"
   },
-  "homepage": "https://github.com/puterjam/cos"
+  "homepage": "https://github.com/puterjam/cos",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {}
 }
