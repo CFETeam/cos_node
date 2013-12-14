@@ -18,11 +18,6 @@ module.exports = {
 		this.cosAPP = null;
 		callback && callback();
 	},
-	testCosRequire: function(test) {
-		test.ok(typeof cos == "object", '找到了cos对象');
-		test.ok(typeof cos.getContext == "function", '找到了cos对象的核心方法');
-		test.done();
-	},
 	testBucketCreate: function(test) {
 		var ct = cos.getContext(this.cosAPP);
 		ct.bucket.create(function(body) {
@@ -47,8 +42,27 @@ module.exports = {
 			});
 
 		});
-
 	},
+
+    testGetBucketMeta :function(test){
+        var ct = cos.getContext(this.cosAPP);
+        ct.bucket.getInfo("new_bucket", function(body){
+            test.ok(body.msg == "ok", "获取bucket信息");
+            test.done();
+        });
+    },
+
+    testSetBucketMeta : function(test){
+        var ct = cos.getContext(this.cosAPP);
+        ct.bucket.setInfo("new_bucket",{
+            acl:0,
+            referer:"*.pjhome.net|*.qq.com"
+        }, function(body){
+            test.ok(body.msg == "ok", "设置bucket的信息");
+            test.done();
+        });
+    },
+
 	testBucketList: function(test) {
 		var ct = cos.getContext(this.cosAPP);
 		ct.bucket.list(function(body) {
@@ -56,6 +70,7 @@ module.exports = {
 			test.done();
 		});
 	},
+
 	testBucketList2: function(test) {
 		var ct = cos.getContext(this.cosAPP);
 		ct.bucket.list({

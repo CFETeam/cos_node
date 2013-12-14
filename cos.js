@@ -18,18 +18,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+//引入一些通用组件
+require("./lib/prototype");
 
+//系统库和外部库
 var request = require('request'),
 	fs = require('fs'),
 	events = require('events'),
 	util = require('util'),
-    url = require("url");
+	url = require("url");
 
+//内部库资源
 var Sign = require('./lib/sign'),
-	bucket = require('./lib/api/bucket');
+	bucket = require('./lib/api/bucket'),
+	file = require('./lib/api/file'),
+	dir = require('./lib/api/dir'),
+	multipart = require('./lib/api/multipart'),
+	upload = require('./lib/api/upload');
 
-//引入一些通用组件
-require("./lib/prototype");
 
 var COS_HOST = "cosapi.myqcloud.com",
 	COS_HOST_INNER = "cosapi.tencentyun.com",
@@ -45,37 +51,36 @@ var COS_HOST = "cosapi.myqcloud.com",
 	// 返回包格式错误
 	COS_ERROR_RESPONSE_DATA_INVALID = 1003,
 	// 网络错误
-	COS_ERROR_CURL = 1004,
+	COS_ERROR_CURL = 1004;
 
-	//cos API
-	COS_API = {
-		"upload": "/api/cos_upload",
-		"compress": "/api/cos_upload_with_compress",
-		"file": {
-			"getMeta": "/api/cos_get_meta",
-			"setMeta": "/api/cos_set_meta",
-			"list": "/api/cos_list_file",
-			"rename": "/api/cos_rename",
-			"del": "/api/cos_delete_file",
-			"compress": "/api/cos_compress_file"
-		},
-		"dir": {
-			"mk": "/api/cos_mkdir",
-			"rm": "/api/cos_rmdir"
-		},
-		"bucket": {
-			"create": "/api/cos_create_bucket",
-			"delete": "/api/cos_delete_bucket",
-			"getInfo": "/api/cos_get_bucket",
-			"setInfo": "/api/cos_set_bucket",
-			"list": "/api/cos_list_bucket"
-		},
-		"multipart": {
-			"upload": "/api/cos_multipart_upload",
-			"complete": "/api/cos_complete_multipart_upload"
-		}
-	};
-
+//cos API
+// COS_API = {
+// 	"upload": "/api/cos_upload",
+// 	"compress": "/api/cos_upload_with_compress",
+// 	"file": {
+// 		"getMeta": "/api/cos_get_meta",
+// 		"setMeta": "/api/cos_set_meta",
+// 		"list": "/api/cos_list_file",
+// 		"rename": "/api/cos_rename",
+// 		"del": "/api/cos_delete_file",
+// 		"compress": "/api/cos_compress_file"
+// 	},
+// 	"dir": {
+// 		"mk": "/api/cos_mkdir",
+// 		"rm": "/api/cos_rmdir"
+// 	},
+// 	"bucket": {
+// 		"create": "/api/cos_create_bucket",
+// 		"delete": "/api/cos_delete_bucket",
+// 		"getInfo": "/api/cos_get_bucket",
+// 		"setInfo": "/api/cos_set_bucket",
+// 		"list": "/api/cos_list_bucket"
+// 	},
+// 	"multipart": {
+// 		"upload": "/api/cos_multipart_upload",
+// 		"complete": "/api/cos_complete_multipart_upload"
+// 	}
+// };
 /**
  * 初始化COS接口
  * @param  {Object} Obj 包含accessId,secretId,secretKey的json数据
@@ -99,8 +104,8 @@ var COS = function(Obj) {
 
 //COS对象的prototype设置
 COS.prototype = {
-	upload: function() {},
-	compress: function() {},
+	upload: upload.upload,
+	compress: upload.compress,
 	_bucket: function() {
 		return {
 			create: bucket.create.bind(this),
@@ -112,44 +117,24 @@ COS.prototype = {
 	},
 	_file: function() {
 		return {
-			list: (function() {
-				return this
-			}).bind(this),
-			rename: (function() {
-				return this
-			}).bind(this),
-			del: (function() {
-				return this
-			}).bind(this),
-			compress: (function() {
-				return this
-			}).bind(this),
-			setMeta: (function() {
-				return this
-			}).bind(this),
-			getMeta: (function() {
-				return this
-			}).bind(this)
+			list: file.list.bind(this),
+			rename:file.rename.bind(this),
+			del: file.del.bind(this),
+			compress: file.compress.bind(this),
+			setMeta: file.setMeta.bind(this),
+			getMeta: file.getMeta.bind(this)
 		}
 	},
 	_dir: function() {
 		return {
-			mk: (function() {
-				return this
-			}).bind(this),
-			rm: (function() {
-				return this
-			}).bind(this)
+			mk: dir.mk.bind(this),
+			rm: dir.rm.bind(this)
 		}
 	},
 	_multipart: function() {
 		return {
-			upload: (function() {
-				return this
-			}).bind(this),
-			complete: (function() {
-				return this
-			}).bind(this)
+			upload: multipart.upload.bind(this),
+			complete: multipart.complete.bind(this)
 		}
 	}
 };
@@ -164,25 +149,37 @@ COS.prototype = {
  */
 COS.prototype.request = function(method, api, data, callback) {
 	var method = method.toLowerCase() || "get",
-        queryString = data,
-        uri = url.parse(api,true);
+		queryString = data,
+		uri = url.parse(api, true);
 
-    queryString.accessId = this.accessId;
-    queryString.secretId = this.secretId;
-    queryString.time = parseInt((new Date()).getTime() / 1000, 10);
+	queryString.accessId = this.accessId;
+	queryString.secretId = this.secretId;
+	queryString.time = parseInt((new Date()).getTime() / 1000, 10);
 
-    uri.query = queryString;
+	uri.query = queryString;
+	queryString.sign = this.sign.get(url.format(uri));
 
-    //获取请求的token
-    var formatUrl = url.format(uri);
-	var token = this.sign.get(formatUrl);
+	var requestUrl = ["http://", COS_HOST, url.format(uri)].join("");
 
-    var requestUrl = ["http://" , COS_HOST , formatUrl , "&sign=",token].join("");
-
-    //请求
-	request[method](requestUrl, function(error, response, body) {
-        callback && callback(error, response, body);
-    });
+	//var requestUrl = ["http://" , COS_HOST , uri.pathname].join("");
+	//请求
+	request[method](requestUrl, {
+		//        body:(function(){
+		//            var data = [];
+		//            Object.keys(queryString).forEach(function(v){
+		//                data.push(v.toUpperCase()+":" +queryString[v])
+		//            });
+		//
+		//            return data.join("\r\n");
+		//        })();
+	}, function(error, response, body) {
+		try {
+			var data = JSON.parse(body);
+		} catch (e) {
+			throw "invalid json data."
+		}
+		callback && callback(data);
+	});
 }
 
 module.exports = {
