@@ -36,9 +36,9 @@ module.exports = {
 		test.done();
 	},
 
-	testRawUrlEncode: function(test){
-		test.ok(Sign._.rawUrlEncode("-_.") == "-_.","测试不需要转换的-_.");
-		test.ok(Sign._.rawUrlEncode("*") == "%2A","测试*号是否转换成%2A");
+	testRawUrlEncode: function(test) {
+		test.ok(Sign._.rawUrlEncode("-_.") == "-_.", "测试不需要转换的-_.");
+		test.ok(Sign._.rawUrlEncode("*") == "%2A", "测试*号是否转换成%2A");
 		test.done();
 	}
 };

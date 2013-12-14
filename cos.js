@@ -18,16 +18,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+
 var request = require('request'),
 	fs = require('fs'),
 	events = require('events'),
 	util = require('util'),
-	Sign = require('./lib/sign');
+    url = require("url");
+
+var Sign = require('./lib/sign'),
+	bucket = require('./lib/api/bucket');
+
+//引入一些通用组件
+require("./lib/prototype");
 
 var COS_HOST = "cosapi.myqcloud.com",
 	COS_HOST_INNER = "cosapi.tencentyun.com",
 	COS_DOWNLOAD_HOST = "cos.myqcloud.com",
 	COS_DOWNLOAD_HOST_INNER = "cos.tencentyun.com",
+
 	COS_W_PRIVATE_R_PRIVATE = 0,
 	COS_W_PRIVATE_R_PUBLIC = 1,
 	// 参数为空
@@ -49,7 +57,7 @@ var COS_HOST = "cosapi.myqcloud.com",
 			"list": "/api/cos_list_file",
 			"rename": "/api/cos_rename",
 			"del": "/api/cos_delete_file",
-			"compress": "/api/cos_compress_file",
+			"compress": "/api/cos_compress_file"
 		},
 		"dir": {
 			"mk": "/api/cos_mkdir",
@@ -85,31 +93,21 @@ var COS = function(Obj) {
 
 		//返回 Sign对象，可以使用sign.get来获取sign。
 		this.sign = new Sign(this.secretKey);
-		return
+
+		return true;
 	};
 
 //COS对象的prototype设置
 COS.prototype = {
-
 	upload: function() {},
 	compress: function() {},
 	_bucket: function() {
 		return {
-			create: (function() {
-				return this
-			}).bind(this),
-			list: (function() {
-				return this
-			}).bind(this),
-			del: (function() {
-				return this
-			}).bind(this),
-			setInfo: (function() {
-				return this
-			}).bind(this),
-			getInfo: (function() {
-				return this
-			}).bind(this)
+			create: bucket.create.bind(this),
+			list: bucket.list.bind(this),
+			del: bucket.delete.bind(this),
+			setInfo: bucket.setInfo.bind(this),
+			getInfo: bucket.getInfo.bind(this)
 		}
 	},
 	_file: function() {
@@ -131,7 +129,7 @@ COS.prototype = {
 			}).bind(this),
 			getMeta: (function() {
 				return this
-			}).bind(this),
+			}).bind(this)
 		}
 	},
 	_dir: function() {
@@ -151,10 +149,41 @@ COS.prototype = {
 			}).bind(this),
 			complete: (function() {
 				return this
-			}).bind(this),
+			}).bind(this)
 		}
 	}
 };
+
+/**
+ * 发起API的请求
+ * 
+ * @param  {string}   method   默认是get
+ * @param  {string}   api      请求的API地址，相对路径
+ * @param  {Object}   data     请求的参数
+ * @param  {Function} callback 请求完成的回调函数
+ */
+COS.prototype.request = function(method, api, data, callback) {
+	var method = method.toLowerCase() || "get",
+        queryString = data,
+        uri = url.parse(api,true);
+
+    queryString.accessId = this.accessId;
+    queryString.secretId = this.secretId;
+    queryString.time = parseInt((new Date()).getTime() / 1000, 10);
+
+    uri.query = queryString;
+
+    //获取请求的token
+    var formatUrl = url.format(uri);
+	var token = this.sign.get(formatUrl);
+
+    var requestUrl = ["http://" , COS_HOST , formatUrl , "&sign=",token].join("");
+
+    //请求
+	request[method](requestUrl, function(error, response, body) {
+        callback && callback(error, response, body);
+    });
+}
 
 module.exports = {
 	getContext: function(Obj) {
