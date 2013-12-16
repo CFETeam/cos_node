@@ -162,6 +162,7 @@ COS.prototype.request = function(method, api, data, callback) {
 	var requestUrl = ["http://", COS_HOST, url.format(uri)].join("");
 
 	//var requestUrl = ["http://" , COS_HOST , uri.pathname].join("");
+
 	//请求
 	request[method](requestUrl, {
 		//        body:(function(){
