@@ -118,7 +118,7 @@ COS.prototype = {
             rename: file.rename.bind(this),
             del: file.del.bind(this),
             compress: file.compress.bind(this),
-            setMeta: file.setMeta.bind(this),
+            setDirMeta: file.setDirMeta.bind(this),
             getMeta: file.getMeta.bind(this),
             mkdir: file.mkdir.bind(this),
             rmdir: file.rmdir.bind(this)
