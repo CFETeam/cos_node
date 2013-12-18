@@ -1,57 +1,55 @@
 /*
-cos.js
+ cos.js
 
-Copyright (c) 2013
+ Copyright (c) 2013
 
-PuterJam
+ PuterJam
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+ http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 
-//引入一些通用组件
-require("./lib/prototype");
+
 
 //系统库和外部库
 var request = require('request'),
-	fs = require('fs'),
-	events = require('events'),
-	util = require('util'),
-	url = require("url");
+    fs = require('fs'),
+    events = require('events'),
+    util = require('util'),
+    url = require("url");
 
 //内部库资源
 var Sign = require('./lib/sign'),
-	bucket = require('./lib/api/bucket'),
-	file = require('./lib/api/file'),
-	dir = require('./lib/api/dir'),
-	multipart = require('./lib/api/multipart'),
-	upload = require('./lib/api/upload');
+    bucket = require('./lib/api/bucket'),
+    file = require('./lib/api/file'),
+    multipart = require('./lib/api/multipart'),
+    upload = require('./lib/api/upload');
 
 
 var COS_HOST = "cosapi.myqcloud.com",
-	COS_HOST_INNER = "cosapi.tencentyun.com",
-	COS_DOWNLOAD_HOST = "cos.myqcloud.com",
-	COS_DOWNLOAD_HOST_INNER = "cos.tencentyun.com",
+    COS_HOST_INNER = "cosapi.tencentyun.com",
+    COS_DOWNLOAD_HOST = "cos.myqcloud.com",
+    COS_DOWNLOAD_HOST_INNER = "cos.tencentyun.com",
 
-	COS_W_PRIVATE_R_PRIVATE = 0,
-	COS_W_PRIVATE_R_PUBLIC = 1,
-	// 参数为空
-	COS_ERROR_REQUIRED_PARAMETER_EMPTY = 1001,
-	// 参数格式错误
-	COS_ERROR_REQUIRED_PARAMETER_INVALID = 1002,
-	// 返回包格式错误
-	COS_ERROR_RESPONSE_DATA_INVALID = 1003,
-	// 网络错误
-	COS_ERROR_CURL = 1004;
+    COS_W_PRIVATE_R_PRIVATE = 0,
+    COS_W_PRIVATE_R_PUBLIC = 1,
+// 参数为空
+    COS_ERROR_REQUIRED_PARAMETER_EMPTY = 1001,
+// 参数格式错误
+    COS_ERROR_REQUIRED_PARAMETER_INVALID = 1002,
+// 返回包格式错误
+    COS_ERROR_RESPONSE_DATA_INVALID = 1003,
+// 网络错误
+    COS_ERROR_CURL = 1004;
 
 //cos API
 // COS_API = {
@@ -86,105 +84,104 @@ var COS_HOST = "cosapi.myqcloud.com",
  * @param  {Object} Obj 包含accessId,secretId,secretKey的json数据
  * @type {Class}
  */
-var COS = function(Obj) {
-		this.accessId = Obj.accessId;
-		this.secretId = Obj.secretId;
-		this.secretKey = Obj.secretKey;
+var COS = function (Obj) {
+    this.accessId = Obj.accessId;
+    this.secretId = Obj.secretId;
+    this.secretKey = Obj.secretKey;
 
-		this.bucket = this._bucket();
-		this.file = this._file();
-		this.dir = this._dir();
-		this.multipart = this._multipart();
+    this.bucket = this._bucket();
+    this.file = this._file();
+    this.multipart = this._multipart();
 
-		//返回 Sign对象，可以使用sign.get来获取sign。
-		this.sign = new Sign(this.secretKey);
+    //返回 Sign对象，可以使用sign.get来获取sign。
+    this.sign = new Sign(this.secretKey);
 
-		return true;
-	};
+    return true;
+};
 
 //COS对象的prototype设置
 COS.prototype = {
-	upload: upload.upload,
-	compress: upload.compress,
-	_bucket: function() {
-		return {
-			create: bucket.create.bind(this),
-			list: bucket.list.bind(this),
-			del: bucket.delete.bind(this),
-			setInfo: bucket.setInfo.bind(this),
-			getInfo: bucket.getInfo.bind(this)
-		}
-	},
-	_file: function() {
-		return {
-			list: file.list.bind(this),
-			rename:file.rename.bind(this),
-			del: file.del.bind(this),
-			compress: file.compress.bind(this),
-			setMeta: file.setMeta.bind(this),
-			getMeta: file.getMeta.bind(this)
-		}
-	},
-	_dir: function() {
-		return {
-			mk: dir.mk.bind(this),
-			rm: dir.rm.bind(this)
-		}
-	},
-	_multipart: function() {
-		return {
-			upload: multipart.upload.bind(this),
-			complete: multipart.complete.bind(this)
-		}
-	}
+    upload: upload.upload,
+    compress: upload.compress,
+    _bucket: function () {
+        return {
+            create: bucket.create.bind(this),
+            list: bucket.list.bind(this),
+            del: bucket.delete.bind(this),
+            setInfo: bucket.setInfo.bind(this),
+            getInfo: bucket.getInfo.bind(this)
+        }
+    },
+    _file: function () {
+        return {
+            list: file.list.bind(this),
+            rename: file.rename.bind(this),
+            del: file.del.bind(this),
+            compress: file.compress.bind(this),
+            setMeta: file.setMeta.bind(this),
+            getMeta: file.getMeta.bind(this),
+            mkdir: file.mkdir.bind(this),
+            rmdir: file.rmdir.bind(this)
+        }
+    },
+    _multipart: function () {
+        return {
+            upload: multipart.upload.bind(this),
+            complete: multipart.complete.bind(this)
+        }
+    }
 };
+
+
+COS.prototype.request = function (method, api, queryString, opt, callback) {
+    callback = callback || ((typeof opt == "function") ? opt : null);
+    opt = ((typeof opt == "function") ? {} : opt) || {};
+
+    return _requset.call(this, method, api, queryString, opt, callback);
+}
+
 
 /**
  * 发起API的请求
- * 
+ *
  * @param  {string}   method   默认是get
  * @param  {string}   api      请求的API地址，相对路径
  * @param  {Object}   data     请求的参数
  * @param  {Function} callback 请求完成的回调函数
+ * @return {WriteStream} 返回请求的数据WriteStream
  */
-COS.prototype.request = function(method, api, data, callback) {
-	var method = method.toLowerCase() || "get",
-		queryString = data,
-		uri = url.parse(api, true);
+var _requset = function (method, api, queryString, opt, callback) {
 
-	queryString.accessId = this.accessId;
-	queryString.secretId = this.secretId;
-	queryString.time = parseInt((new Date()).getTime() / 1000, 10);
+    var method = method.toLowerCase() || "get",
+        uri = url.parse(api, true),
+        opt = opt || {};
 
-	uri.query = queryString;
-	queryString.sign = this.sign.get(url.format(uri));
+    queryString.accessId = this.accessId;
+    queryString.secretId = this.secretId;
+    queryString.time = parseInt((new Date()).getTime() / 1000, 10);
 
-	var requestUrl = ["http://", COS_HOST, url.format(uri)].join("");
+    uri.query = queryString;
+    queryString.sign = this.sign.get(url.format(uri));
 
-	//var requestUrl = ["http://" , COS_HOST , uri.pathname].join("");
+    var requestUrl = ["http://", COS_HOST, url.format(uri)].join("");
 
-	//请求
-	request[method](requestUrl, {
-		//        body:(function(){
-		//            var data = [];
-		//            Object.keys(queryString).forEach(function(v){
-		//                data.push(v.toUpperCase()+":" +queryString[v])
-		//            });
-		//
-		//            return data.join("\r\n");
-		//        })();
-	}, function(error, response, body) {
-		try {
-			var data = JSON.parse(body);
-		} catch (e) {
-			throw "invalid json data."
-		}
-		callback && callback(data);
-	});
+    //var requestUrl = ["http://" , COS_HOST , uri.pathname].join("");
+
+    //console.log(api)
+    //请求
+    return request[method](requestUrl, opt, function (error, response, body) {
+        // console.log(response)
+        try {
+            var data = JSON.parse(body);
+        } catch (e) {
+            throw "invalid json data."
+        }
+        callback && callback(data);
+    });
 }
 
 module.exports = {
-	getContext: function(Obj) {
-		return new COS(Obj);
-	}
+    getContext: function (Obj) {
+        return new COS(Obj);
+    }
 };

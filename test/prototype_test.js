@@ -4,14 +4,15 @@
 //
 var assert = require("assert");
 var Sign = require("../lib/prototype");
+var bUri = require("../lib/bucketUri");
 
 module.exports = {
-    testPrototypeApi: function(test) {
+    testPrototypeApi: function (test) {
         var foo = {},
             def = {
                 "hello": 1
             };
-        test.ok( !! foo.init, "找到default扩展");
+        test.ok(!!foo.init, "找到default扩展");
         test.ok(!foo.hello, "没初始化的参数");
 
         foo.init(def);
