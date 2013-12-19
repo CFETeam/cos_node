@@ -32,69 +32,31 @@ var Sign = require('./lib/sign'),
     bucket = require('./lib/api/bucket'),
     file = require('./lib/api/file'),
     multipart = require('./lib/api/multipart'),
-    upload = require('./lib/api/upload');
+    upload = require('./lib/api/upload'),
+    initOpt = require("./lib/util").initOpt;
 
 
 var COS_HOST = "cosapi.myqcloud.com",
-    COS_HOST_INNER = "cosapi.tencentyun.com",
-    COS_DOWNLOAD_HOST = "cos.myqcloud.com",
-    COS_DOWNLOAD_HOST_INNER = "cos.tencentyun.com",
+    COS_HOST_INNER = "cosapi.tencentyun.com";
 
-    COS_W_PRIVATE_R_PRIVATE = 0,
-    COS_W_PRIVATE_R_PUBLIC = 1,
-// 参数为空
-    COS_ERROR_REQUIRED_PARAMETER_EMPTY = 1001,
-// 参数格式错误
-    COS_ERROR_REQUIRED_PARAMETER_INVALID = 1002,
-// 返回包格式错误
-    COS_ERROR_RESPONSE_DATA_INVALID = 1003,
-// 网络错误
-    COS_ERROR_CURL = 1004;
+var cosToken;
 
-//cos API
-// COS_API = {
-// 	"upload": "/api/cos_upload",
-// 	"compress": "/api/cos_upload_with_compress",
-// 	"file": {
-// 		"getMeta": "/api/cos_get_meta",
-// 		"setMeta": "/api/cos_set_meta",
-// 		"list": "/api/cos_list_file",
-// 		"rename": "/api/cos_rename",
-// 		"del": "/api/cos_delete_file",
-// 		"compress": "/api/cos_compress_file"
-// 	},
-// 	"dir": {
-// 		"mk": "/api/cos_mkdir",
-// 		"rm": "/api/cos_rmdir"
-// 	},
-// 	"bucket": {
-// 		"create": "/api/cos_create_bucket",
-// 		"delete": "/api/cos_delete_bucket",
-// 		"getInfo": "/api/cos_get_bucket",
-// 		"setInfo": "/api/cos_set_bucket",
-// 		"list": "/api/cos_list_bucket"
-// 	},
-// 	"multipart": {
-// 		"upload": "/api/cos_multipart_upload",
-// 		"complete": "/api/cos_complete_multipart_upload"
-// 	}
-// };
 /**
  * 初始化COS接口
  * @param  {Object} Obj 包含accessId,secretId,secretKey的json数据
  * @type {Class}
  */
 var COS = function (Obj) {
+    if (!Obj || !Obj.accessId || !Obj.secretKey) {
+        throw "invalid app access key.";
+    }
+
     this.accessId = Obj.accessId;
     this.secretId = Obj.secretId;
     this.secretKey = Obj.secretKey;
 
-    this.bucket = this._bucket();
-    this.file = this._file();
-    this.multipart = this._multipart();
-
     //返回 Sign对象，可以使用sign.get来获取sign。
-    this.sign = new Sign(this.secretKey);
+    this.signObj = new Sign(this.secretKey);
 
     return true;
 };
@@ -102,43 +64,49 @@ var COS = function (Obj) {
 //COS对象的prototype设置
 COS.prototype = {
     upload: upload.upload,
-    compress: upload.compress,
-    _bucket: function () {
-        return {
-            create: bucket.create.bind(this),
-            list: bucket.list.bind(this),
-            del: bucket.delete.bind(this),
-            setInfo: bucket.setInfo.bind(this),
-            getInfo: bucket.getInfo.bind(this)
-        }
+    //compress: upload.compress,
+
+    mkBucket: bucket.create,
+    rmBucket: bucket.delete,
+    lsBucket: bucket.list,
+    getBucketMeta: bucket.getInfo,
+    setBucketMeta: bucket.setInfo,
+
+    rename: file.rename,
+    ls: file.list,
+    del: file.del,
+    zip: file.compress,
+    mkdir: file.mkdir,
+    rmdir: file.rmdir,
+    setDirMeta: file.setDirMeta,
+    stat: file.getMeta,
+
+    url:file.getDownloadUrl,
+
+    signUrl: function (apiUrl, queryString) {
+        var uri = url.parse(apiUrl, true),
+            queryString = queryString || {};
+
+        queryString.accessId = this.accessId;
+        queryString.secretId = this.secretId;
+        queryString.time = queryString.time || parseInt((new Date()).getTime() / 1000, 10);
+
+        uri.query = initOpt(queryString,uri.query);
+        uri.search = ""; //清空search，让uri对象根据query来计算结果
+
+        uri.query.sign = this.signObj.get(url.format(uri));
+
+        return url.format(uri);
     },
-    _file: function () {
-        return {
-            list: file.list.bind(this),
-            rename: file.rename.bind(this),
-            del: file.del.bind(this),
-            compress: file.compress.bind(this),
-            setDirMeta: file.setDirMeta.bind(this),
-            getMeta: file.getMeta.bind(this),
-            mkdir: file.mkdir.bind(this),
-            rmdir: file.rmdir.bind(this)
-        }
-    },
-    _multipart: function () {
-        return {
-            upload: multipart.upload.bind(this),
-            complete: multipart.complete.bind(this)
-        }
+
+    request: function (method, api, queryString, opt, callback) {
+        //支持opt和callback的多态
+        callback = callback || ((typeof opt == "function") ? opt : null);
+        opt = ((typeof opt == "function") ? {} : opt) || {};
+
+        return _requset.call(this, method, api, queryString, opt, callback);
     }
 };
-
-
-COS.prototype.request = function (method, api, queryString, opt, callback) {
-    callback = callback || ((typeof opt == "function") ? opt : null);
-    opt = ((typeof opt == "function") ? {} : opt) || {};
-
-    return _requset.call(this, method, api, queryString, opt, callback);
-}
 
 
 /**
@@ -153,17 +121,10 @@ COS.prototype.request = function (method, api, queryString, opt, callback) {
 var _requset = function (method, api, queryString, opt, callback) {
 
     var method = method.toLowerCase() || "get",
-        uri = url.parse(api, true),
+        uri = this.signUrl(api, queryString),
         opt = opt || {};
 
-    queryString.accessId = this.accessId;
-    queryString.secretId = this.secretId;
-    queryString.time = parseInt((new Date()).getTime() / 1000, 10);
-
-    uri.query = queryString;
-    queryString.sign = this.sign.get(url.format(uri));
-
-    var requestUrl = ["http://", COS_HOST, url.format(uri)].join("");
+    var requestUrl = ["http://", COS_HOST, uri].join("");
 
     //var requestUrl = ["http://" , COS_HOST , uri.pathname].join("");
 
@@ -180,8 +141,14 @@ var _requset = function (method, api, queryString, opt, callback) {
     });
 }
 
-module.exports = {
-    getContext: function (Obj) {
-        return new COS(Obj);
-    }
-};
+/**
+ * 获取 cos 操作对象
+ * @param Obj
+ * @returns {COS}
+ */
+COS.getContext = function (Obj) {
+    return new COS(Obj);
+}
+
+
+module.exports = COS;

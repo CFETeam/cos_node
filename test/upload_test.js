@@ -15,7 +15,7 @@ module.exports = {
         this.ct = cos.getContext(this.cosAPP);
 
         //初始化上传用的bucket
-        this.ct.bucket.create("test_upload", function () {
+        this.ct.mkBucket("test_upload", function () {
             callback && callback();
         });
     },
@@ -66,7 +66,7 @@ module.exports = {
     },
 
     testDeleteFile: function (test) {
-        this.ct.file.del("test_upload:/uploader.js", function (body) {
+        this.ct.del("test_upload:/uploader.js", function (body) {
             test.ok(body.msg == "ok", "测试文件被删除成功");
             test.done();
         })

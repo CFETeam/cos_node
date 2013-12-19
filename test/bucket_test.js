@@ -22,7 +22,8 @@ module.exports = {
         callback && callback();
     },
     testBucketCreate: function (test) {
-        this.ct.bucket.create("new_bucket", function (body) {
+        var ct = this.ct;
+        ct.mkBucket("new_bucket", function (body) {
             if (body.code == -25498) {
                 test.ok(body.data == null, "bucket已经存在");
             } else {
@@ -34,11 +35,11 @@ module.exports = {
     },
     testBucketCreate2: function (test) {
         var ct = this.ct;
-        ct.bucket.create("test_bucket", function (body) {
+        ct.mkBucket("test_bucket", function (body) {
             test.ok(body.msg == "ok", "test_bucket正常创建");
 
             //测试删除
-            ct.bucket.del("test_bucket", function (body) {
+            ct.rmBucket("test_bucket", function (body) {
                 test.ok(body.msg == "ok", "test_bucket正常删除");
                 test.done();
             });
@@ -47,7 +48,7 @@ module.exports = {
     },
     testSetBucketMeta: function (test) {
         var ct = this.ct;
-        ct.bucket.setInfo("new_bucket", {
+        ct.setBucketMeta("new_bucket", {
             acl: 0,
             referer: this.testReferer
         }, function (body) {
@@ -59,7 +60,7 @@ module.exports = {
     testGetBucketMeta: function (test) {
         var ct = this.ct;
         var o = this;
-        ct.bucket.getInfo("new_bucket", function (body) {
+        ct.getBucketMeta("new_bucket", function (body) {
             test.ok(body.msg == "ok", "获取bucket信息");
             test.ok(body.data.referer == o.testReferer.replace(/\|/g, "\n"), "获取bucket的信息正确");
             test.done();
@@ -68,7 +69,7 @@ module.exports = {
 
     testDelBucket: function (test) {
         var ct = this.ct;
-        ct.bucket.del("new_bucket", function (body) {
+        ct.rmBucket("new_bucket", function (body) {
             test.ok(body.msg == "ok", "new_bucket正常删除");
             test.done();
         });
@@ -76,7 +77,7 @@ module.exports = {
 
     testBucketList: function (test) {
         var ct = this.ct;
-        ct.bucket.list(function (body) {
+        ct.lsBucket(function (body) {
             test.ok(body.msg == "ok", "正常返回");
             test.done();
         });
@@ -84,7 +85,7 @@ module.exports = {
 
     testBucketList2: function (test) {
         var ct = this.ct;
-        ct.bucket.list({
+        ct.lsBucket({
             count: 1
         }, function (body) {
             test.ok(body.msg == "ok", "正常返回");
