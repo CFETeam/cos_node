@@ -36,8 +36,8 @@ var Sign = require('./lib/sign'),
     initOpt = require("./lib/util").initOpt;
 
 
-var COS_HOST = "cosapi.myqcloud.com",
-    COS_HOST_INNER = "cosapi.tencentyun.com";
+var COS_HOST = "cosapi.myqcloud.com";
+  //COS_HOST_INNER = "cosapi.tencentyun.com"; //用于测试环境测试
 
 var cosToken;
 
@@ -48,7 +48,7 @@ var cosToken;
  */
 var COS = function (Obj) {
     if (!Obj || !Obj.accessId || !Obj.secretKey) {
-        throw "invalid app access key.";
+        throw new Error("invalid app access key.");
     }
 
     this.accessId = Obj.accessId;
@@ -131,11 +131,14 @@ var _requset = function (method, api, queryString, opt, callback) {
     //console.log(api)
     //请求
     return request[method](requestUrl, opt, function (error, response, body) {
-        // console.log(response)
+        if (error){
+            throw error;
+        }
+
         try {
             var data = JSON.parse(body);
         } catch (e) {
-            throw "invalid json data."
+            throw new Error("无效的json数据格式");
         }
         callback && callback(data);
     });

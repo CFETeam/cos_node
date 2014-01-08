@@ -85,6 +85,7 @@ module.exports = {
 
     testBucketList2: function (test) {
         var ct = this.ct;
+        
         ct.lsBucket({
             count: 1
         }, function (body) {

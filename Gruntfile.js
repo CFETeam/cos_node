@@ -18,10 +18,6 @@ module.exports = function (grunt) {
                 cos: {
                     files: ['cos.js', 'lib/**/*.js', 'test/*.js'],
                     tasks: 'nodeunit:cos'
-                },
-                test:{
-                    files: ['cos.js', 'lib/**/*.js', 'test/*.js'],
-                    tasks: 'nodeunit'
                 }
             },
 
@@ -47,6 +43,6 @@ module.exports = function (grunt) {
     // Default task(s).
     grunt.registerTask('default', ["watch"]);
     grunt.registerTask('test', ["nodeunit"]);
-    grunt.registerTask('watch-test', ["watch:test"]);
+    grunt.registerTask('test-cos', ["nodeunit:cos","watch:cos"]);
 }
 ;
