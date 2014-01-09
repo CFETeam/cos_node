@@ -20,14 +20,12 @@
 
 
 
-//系统库和外部库
 var request = require('request'),
     fs = require('fs'),
     events = require('events'),
     util = require('util'),
     url = require("url");
 
-//内部库资源
 var Sign = require('./lib/sign'),
     bucket = require('./lib/api/bucket'),
     file = require('./lib/api/file'),
@@ -131,16 +129,16 @@ var _requset = function (method, api, queryString, opt, callback) {
     //console.log(api)
     //请求
     return request[method](requestUrl, opt, function (error, response, body) {
-        if (error){
-            throw error;
+        if (!error){
+        	try {
+                var data = JSON.parse(body);
+            } catch (e) {
+                error = new Error("返回无效的json数据格式"+body);
+            }
+            callback && callback(error,data);
+        }else{
+        	callback(error);
         }
-
-        try {
-            var data = JSON.parse(body);
-        } catch (e) {
-            throw new Error("无效的json数据格式");
-        }
-        callback && callback(data);
     });
 }
 

@@ -23,7 +23,7 @@ module.exports = {
     },
     testBucketCreate: function (test) {
         var ct = this.ct;
-        ct.mkBucket("new_bucket", function (body) {
+        ct.mkBucket("new_bucket", function (error,body) {
             if (body.code == -25498) {
                 test.ok(body.data == null, "bucket已经存在");
             } else {
@@ -35,11 +35,11 @@ module.exports = {
     },
     testBucketCreate2: function (test) {
         var ct = this.ct;
-        ct.mkBucket("test_bucket", function (body) {
+        ct.mkBucket("test_bucket", function (error,body) {
             test.ok(body.msg == "ok", "test_bucket正常创建");
 
             //测试删除
-            ct.rmBucket("test_bucket", function (body) {
+            ct.rmBucket("test_bucket", function (error,body) {
                 test.ok(body.msg == "ok", "test_bucket正常删除");
                 test.done();
             });
@@ -51,7 +51,7 @@ module.exports = {
         ct.setBucketMeta("new_bucket", {
             acl: 0,
             referer: this.testReferer
-        }, function (body) {
+        }, function (error,body) {
             test.ok(body.msg == "ok", "设置bucket的信息");
             test.done();
         });
@@ -60,7 +60,7 @@ module.exports = {
     testGetBucketMeta: function (test) {
         var ct = this.ct;
         var o = this;
-        ct.getBucketMeta("new_bucket", function (body) {
+        ct.getBucketMeta("new_bucket", function (error,body) {
             test.ok(body.msg == "ok", "获取bucket信息");
             test.ok(body.data.referer == o.testReferer.replace(/\|/g, "\n"), "获取bucket的信息正确");
             test.done();
@@ -69,7 +69,7 @@ module.exports = {
 
     testDelBucket: function (test) {
         var ct = this.ct;
-        ct.rmBucket("new_bucket", function (body) {
+        ct.rmBucket("new_bucket", function (error,body) {
             test.ok(body.msg == "ok", "new_bucket正常删除");
             test.done();
         });
@@ -77,7 +77,7 @@ module.exports = {
 
     testBucketList: function (test) {
         var ct = this.ct;
-        ct.lsBucket(function (body) {
+        ct.lsBucket(function (error,body) {
             test.ok(body.msg == "ok", "正常返回");
             test.done();
         });
@@ -88,7 +88,7 @@ module.exports = {
         
         ct.lsBucket({
             count: 1
-        }, function (body) {
+        }, function (error,body) {
             test.ok(body.msg == "ok", "正常返回");
             test.ok(body.data.direntlst.length == 1, "只返回一个bucket");
             test.done();

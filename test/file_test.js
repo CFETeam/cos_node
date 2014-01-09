@@ -24,7 +24,7 @@ module.exports = {
         this.cosAPP = null;
 
         //暂时不做删除
-        //        this.ct.bucket.del("test_upload",function(body){
+        //        this.ct.bucket.del("test_upload",function(error,body){
         //            console.log(body);
         //            callback && callback();
         //        })
@@ -32,14 +32,14 @@ module.exports = {
     },
 
     testUploaderAPI: function (test) {
-        this.ct.upload(process.cwd() + "/lib/api/upload.js").to("test_upload:/uploader.js", function (body) {
+        this.ct.upload(process.cwd() + "/lib/api/upload.js").to("test_upload:/uploader.js", function (error,body) {
             test.ok(body.msg == "ok" || body.code == -24991, "文件上传成功, 或者文件已经存在");
             test.done();
         });
     },
 
     testGetFileMeta: function (test) {
-        this.ct.stat("test_upload:/uploader.js", function (body) {
+        this.ct.stat("test_upload:/uploader.js", function (error,body) {
             test.ok(body.msg == "ok" || body.code == -24991, "文件上传成功, 或者文件已经存在");
             test.ok(body.data.type == 1, "文件类型");
             test.ok(body.data.finish_flag == true, "文件上传完成");
@@ -48,7 +48,7 @@ module.exports = {
     },
 
     testMkDir: function (test) {
-        this.ct.mkdir("test_upload:/test", function (body) {
+        this.ct.mkdir("test_upload:/test", function (error,body) {
             test.ok(body.msg == "ok" || body.code == -24986, "文件夹已经创建，或者已经存在");
             test.done();
         })
@@ -61,20 +61,20 @@ module.exports = {
             contentLanguage: "zh",
             contentDisposition: "attachment",
             cacheControl: "max-age=1000"
-        }, function (body) {
+        }, function (error,body) {
             test.done();
         })
     },
 
     testMkMultiDir: function (test) {
-        this.ct.mkdir("test_upload:/tree/tree/tree/end", function (body) {
+        this.ct.mkdir("test_upload:/tree/tree/tree/end", function (error,body) {
             test.ok(body.msg == "ok" || body.code == -24986, "文件夹已经创建，或者已经存在");
             test.done();
         })
     },
 
     testListDir: function (test) {
-        this.ct.ls("test_upload:/", function (body) {
+        this.ct.ls("test_upload:/", function (error,body) {
             test.ok(body.msg == "ok", "列举列表成功");
             test.done();
         })
@@ -82,7 +82,7 @@ module.exports = {
 
     testListDirByOptions: function (test) {
         //只枚举前缀是 upload 的文件,最多列举2个
-        this.ct.ls("test_upload:/", {count: 2, prefix: "upload"}, function (body) {
+        this.ct.ls("test_upload:/", {count: 2, prefix: "upload"}, function (error,body) {
             test.ok(body.msg == "ok", "列举列表成功");
             test.ok(body.data.files.length == 1, "只返回一个文件");
             test.ok(body.data.files[0].name == "uploader.js", "其实只有一个测试文件是uploader.js");
@@ -92,8 +92,8 @@ module.exports = {
     },
 
     testRmDir: function (test) {
-        this.ct.mkdir("test_upload:/test_for_del", function (body) {
-            this.ct.rmdir("test_upload:/test_for_del", function (body) {
+        this.ct.mkdir("test_upload:/test_for_del", function (error,body) {
+            this.ct.rmdir("test_upload:/test_for_del", function (error,body) {
                 test.ok(body.msg == "ok" || body.code == -24991, "文件删除成功");
                 test.done();
             })
@@ -101,7 +101,7 @@ module.exports = {
     },
 
     testGetDirMeta: function (test) {
-        this.ct.stat("test_upload:/test", function (body) {
+        this.ct.stat("test_upload:/test", function (error,body) {
             test.ok(body.msg == "ok", "获取信息正确");
             test.ok(body.data['Content-Disposition'] == "attachment", "测试返回的目录设置");
             test.done();
@@ -109,7 +109,7 @@ module.exports = {
     },
 
     testRemoveTestDir: function (test) {
-        this.ct.rmdir("test_upload:/test", function (body) {
+        this.ct.rmdir("test_upload:/test", function (error,body) {
             test.ok(body.msg == "ok", "测试目录删除成功");
             test.done();
         })
@@ -146,10 +146,10 @@ module.exports = {
 
     testRename: function (test) {
         var o = this;
-        this.ct.rename("test_upload:/test2/ex_logo.png", "exlogo.png", function (body) {
+        this.ct.rename("test_upload:/test2/ex_logo.png", "exlogo.png", function (error,body) {
             test.ok(body.msg == "ok", "文件名修改成功");
 
-            o.ct.rename("test_upload:/test2/exlogo.png", "ex_logo.png", function (body) {
+            o.ct.rename("test_upload:/test2/exlogo.png", "ex_logo.png", function (error,body) {
                 //还原修改的文件
                 test.ok(body.msg == "ok", "文件名修改成功");
                 test.done();

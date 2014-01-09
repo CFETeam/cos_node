@@ -23,7 +23,7 @@ module.exports = {
         this.cosAPP = null;
 
         //暂时不做删除
-        //        this.ct.bucket.del("test_upload",function(body){
+        //        this.ct.bucket.del("test_upload",function(error,body){
         //            console.log(body);
         //            callback && callback();
         //        })
@@ -32,7 +32,7 @@ module.exports = {
 
 //    testUploadFile: function (test) {
 //
-//        this.ct.upload("test_upload", process.cwd() + "/lib/api/upload.js", function (body) {
+//        this.ct.upload("test_upload", process.cwd() + "/lib/api/upload.js", function (error,body) {
 //            test.ok(body.msg == "ok" || body.code == -24991, "文件上传成功, 或者文件已经存在");
 //            test.done();
 //        });
@@ -42,7 +42,7 @@ module.exports = {
 //        this.ct.upload("test_upload", process.cwd() + "/lib/api/upload.js", {
 //            path: "/",
 //            cosFile: "upload.js"
-//        }, function (body) {
+//        }, function (error,body) {
 //            test.ok(body.msg == "ok" || body.code == -24991, "文件上传成功, 或者文件已经存在");
 //            test.done();
 //        });
@@ -52,28 +52,28 @@ module.exports = {
 //        this.ct.upload("test_upload", process.cwd() + "/lib/api/upload.js", {
 //            path: "/lib",
 //            cosFile: "upload.js"
-//        }, function (body) {
+//        }, function (error,body) {
 //            test.ok(body.code == "-24985", "目录不存在无法上传");
 //            test.done();
 //        })
 //    },
 
     testUploaderAPI: function (test) {
-        this.ct.upload(process.cwd() + "/lib/api/upload.js").to("test_upload:/uploader.js", function (body) {
+        this.ct.upload(process.cwd() + "/lib/api/upload.js").to("test_upload:/uploader.js", function (error,body) {
             test.ok(body.msg == "ok" || body.code == -24991, "文件上传成功, 或者文件已经存在");
             test.done();
         });
     },
 
     testDeleteFile: function (test) {
-        this.ct.del("test_upload:/uploader.js", function (body) {
+        this.ct.del("test_upload:/uploader.js", function (error,body) {
             test.ok(body.msg == "ok", "测试文件被删除成功");
             test.done();
         })
     },
 
     testUploaderAPI2: function (test) {
-        this.ct.upload(process.cwd() + "/lib/api/upload.js").to("test_upload:/lib/uploader.js", function (body) {
+        this.ct.upload(process.cwd() + "/lib/api/upload.js").to("test_upload:/lib/uploader.js", function (error,body) {
             test.ok(body.code == "-24985", "目录不存在无法上传");
             test.done();
         });

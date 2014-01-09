@@ -36,9 +36,7 @@ module.exports = {
 
     testBucketBadUri: function(test){
         //测试函数异常，如果不抛异常说明逻辑不严谨
-        test.throws(function(){
-            bUri.parse("test_bucket2:index.htm:bad.js");
-        });
+    	test.ok(bUri.parse("test_bucket2:index.htm:bad.js")==null,"判断url是否正确解析");
 
         test.done();
     }
