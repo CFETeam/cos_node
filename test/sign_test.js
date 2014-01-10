@@ -8,7 +8,7 @@ var Sign = require("../lib/sign");
 module.exports = {
     setUp: function (callback) {
         this.cosAPP = {
-            accessId: 1000353,
+            accessId: "1000353",
             secretId: "AKIDq99rTDnjIJglmwgLqzdttvMpXgpUcd9X",
             secretKey: "Viz6f07qQhWXDPMX8K1ygeITH3qzukPP"
         };

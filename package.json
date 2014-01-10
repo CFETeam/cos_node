@@ -1,10 +1,10 @@
 {
   "name": "cos-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Tencent COS SDK.",
   "main": "cos.js",
   "scripts": {
-    "test": "grunt nodeunit"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",

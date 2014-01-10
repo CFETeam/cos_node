@@ -18,6 +18,10 @@ module.exports = function (grunt) {
                 cos: {
                     files: ['cos.js', 'lib/**/*.js', 'test/*.js'],
                     tasks: 'nodeunit:cos'
+                },
+                upload: {
+                    files: ['cos.js', 'lib/**/*.js', 'test/*.js'],
+                    tasks: 'nodeunit:upload'
                 }
             },
 
@@ -35,14 +39,12 @@ module.exports = function (grunt) {
     ;
 
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
-
     grunt.loadNpmTasks('grunt-contrib-watch');
-
-
 
     // Default task(s).
     grunt.registerTask('default', ["watch"]);
     grunt.registerTask('test', ["nodeunit"]);
     grunt.registerTask('test-cos', ["nodeunit:cos","watch:cos"]);
+    grunt.registerTask('test-upload', ["nodeunit:cos","watch:upload"]);
 }
 ;

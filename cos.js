@@ -29,7 +29,6 @@ var request = require('request'),
 var Sign = require('./lib/sign'),
     bucket = require('./lib/api/bucket'),
     file = require('./lib/api/file'),
-    multipart = require('./lib/api/multipart'),
     upload = require('./lib/api/upload'),
     initOpt = require("./lib/util").initOpt;
 
@@ -62,7 +61,7 @@ var COS = function (Obj) {
 //COS对象的prototype设置
 COS.prototype = {
     upload: upload.upload,
-    //compress: upload.compress,
+    convert: upload.convert,
 
     mkBucket: bucket.create,
     rmBucket: bucket.delete,
