@@ -164,6 +164,7 @@ module.exports = {
     },
 
     testDeleteFile2: function (test) {
+        this.ct.del("test_upload:/test_640.jpg"); //删除一些测试文件
         this.ct.del("test_upload:/test.jpg", function (error, body) {
             test.ok(body.msg == "ok", "测试文件被删除成功");
             test.done();
