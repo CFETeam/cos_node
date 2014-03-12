@@ -65,16 +65,36 @@ module.exports = {
         });
     },
 
-    testDeleteFile: function (test) {
-        this.ct.del("test_upload:/uploader.js", function (error, body) {
-            test.ok(body.msg == "ok", "测试文件被删除成功");
-            test.done();
-        })
-    },
-
     testUploaderAPI2: function (test) {
+        //测试如果目录不存在而上传的情况
         this.ct.upload(process.cwd() + "/lib/api/upload.js").to("test_upload:/lib/uploader.js", function (error, body) {
             test.ok(body.code == "-24985", "目录不存在无法上传");
+            test.done();
+        });
+    },
+
+    testConvertAfterUpload: function (test) {
+        var upload = this.ct.upload(process.cwd() + "/test/test.jpg").compress();
+        var url = "test_upload:/test.jpg";
+        //var o = this;
+
+        upload.to(url,function(error,body){
+           // console.log(body)
+            test.ok(body.code == 0, "上传，并马上成功转换图片");
+           // o.ct.del(url);
+            test.done();
+        });
+    },
+
+    testConvertAfterUpload2: function (test) {
+        var upload = this.ct.upload(process.cwd() + "/test/test.jpg").compress().resize(1, 640, 320);
+        var url = "test_upload:/test_640.jpg";
+        //var o = this;
+
+        upload.to(url,function(error,body){
+            // console.log(body)
+            test.ok(body.code == 0, "上传，并马上成功转换图片");
+            // o.ct.del(url);
             test.done();
         });
     },
@@ -82,6 +102,8 @@ module.exports = {
     testConvertFile: function (test) {
         var convert = this.ct.convert("test_upload:/test.jpg").compress().resize(1, 640, 320);
         var o = this;
+
+        //测试参数是否正常传递
         test.ok(convert._opt.compress == 1, "设置压缩");
         test.ok(convert._opt.zoomType == 1, "调整尺寸设置");
 
@@ -89,7 +111,7 @@ module.exports = {
 
         convert.to(url, function (error, body) {
             test.ok(body.code == 0, "成功转换图片");
-            o.ct.del(url);
+            o.ct.del(url);//还原环境
             test.done();
         });
     },
@@ -109,7 +131,7 @@ module.exports = {
         convert.to(url, function (error, body) {
             // console.log(body);
             test.ok(body.code == 0, "成功转换图片");
-            o.ct.del(url);
+            o.ct.del(url); //还原环境
             test.done();
         })
     },
@@ -128,14 +150,23 @@ module.exports = {
         convert.to(url, function (error, body) {
             // console.log(body);
             test.ok(body.code == 0, "成功转换图片");
-            o.ct.del(url);
+            o.ct.del(url);//还原环境
             test.done();
         })
     },
 
-    testConvert: function (test) {
-        var upload = this.ct.upload(process.cwd() + "/lib/api/upload.js").resize(1, 640);
 
-        test.done();
+    testDeleteFile: function (test) {
+        this.ct.del("test_upload:/uploader.js", function (error, body) {
+            test.ok(body.msg == "ok", "测试文件被删除成功");
+            test.done();
+        })
+    },
+
+    testDeleteFile2: function (test) {
+        this.ct.del("test_upload:/test.jpg", function (error, body) {
+            test.ok(body.msg == "ok", "测试文件被删除成功");
+            test.done();
+        })
     }
 }

@@ -85,7 +85,7 @@ COS.prototype = {
             queryString = queryString || {};
 
         queryString.accessId = this.accessId;
-        queryString.secretId = this.secretId;
+        this.secretId && (queryString.secretId = this.secretId);
         queryString.time = queryString.time || parseInt((new Date()).getTime() / 1000, 10);
 
         uri.query = initOpt(queryString,uri.query);
