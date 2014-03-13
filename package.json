@@ -1,42 +1,42 @@
 {
-  "name": "cos-sdk",
-  "version": "0.0.7",
-  "description": "Tencent COS SDK.",
-  "main": "cos.js",
-  "scripts": {
-    "test": "grunt test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/puterjam/cos_node"
-  },
-  "keywords": [
-    "tencent",
-    "cos",
-    "sdk"
-  ],
-  "dependencies": {
-    "request": ">= 2.x"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-watch": "~0.5.3",
-    "nodeunit": "~0.8.2",
-    "grunt-contrib-nodeunit": "~0.2.2"
-  },
-  "author": "PuterJam",
-  "readmeFilename": "README.md",
-  "license": [
-    {
-      "type": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    "name": "cos-sdk",
+    "version": "0.0.7",
+    "description": "Tencent COS SDK.",
+    "main": "cos.js",
+    "scripts": {
+        "test": "grunt test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/puterjam/cos_node"
+    },
+    "keywords": [
+        "tencent",
+        "cos",
+        "sdk"
+    ],
+    "dependencies": {
+        "request": ">= 2.x"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.2",
+        "grunt-contrib-watch": "~0.5.3",
+        "nodeunit": "~0.8.2",
+        "grunt-contrib-nodeunit": "~0.2.2"
+    },
+    "author": "PuterJam",
+    "readmeFilename": "README.md",
+    "license": [
+        {
+            "type": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    ],
+    "bugs": {
+        "url": "https://github.com/puterjam/cos/issues"
+    },
+    "homepage": "https://github.com/puterjam/cos",
+    "directories": {
+        "test": "test"
     }
-  ],
-  "bugs": {
-    "url": "https://github.com/puterjam/cos/issues"
-  },
-  "homepage": "https://github.com/puterjam/cos",
-  "directories": {
-    "test": "test"
-  }
 }

@@ -19,7 +19,6 @@
  */
 
 
-
 var request = require('request'),
     fs = require('fs'),
     events = require('events'),
@@ -34,7 +33,7 @@ var Sign = require('./lib/sign'),
 
 
 var COS_HOST = "cosapi.myqcloud.com";
-  //COS_HOST_INNER = "cosapi.tencentyun.com"; //用于测试环境测试
+//COS_HOST_INNER = "cosapi.tencentyun.com"; //用于测试环境测试
 
 var cosToken;
 
@@ -78,7 +77,7 @@ COS.prototype = {
     setDirMeta: file.setDirMeta,
     stat: file.getMeta,
 
-    url:file.getDownloadUrl,
+    url: file.getDownloadUrl,
 
     signUrl: function (apiUrl, queryString) {
         var uri = url.parse(apiUrl, true),
@@ -88,7 +87,7 @@ COS.prototype = {
         this.secretId && (queryString.secretId = this.secretId);
         queryString.time = queryString.time || parseInt((new Date()).getTime() / 1000, 10);
 
-        uri.query = initOpt(queryString,uri.query);
+        uri.query = initOpt(queryString, uri.query);
         uri.search = ""; //清空search，让uri对象根据query来计算结果
 
         uri.query.sign = this.signObj.get(url.format(uri));
@@ -128,15 +127,15 @@ var _requset = function (method, api, queryString, opt, callback) {
     //console.log(api)
     //请求
     return request[method](requestUrl, opt, function (error, response, body) {
-        if (!error){
-        	try {
+        if (!error) {
+            try {
                 var data = JSON.parse(body);
             } catch (e) {
-                error = new Error("返回无效的json数据格式"+body);
+                error = new Error("返回无效的json数据格式" + body);
             }
-            callback && callback(error,data);
-        }else{
-        	callback(error);
+            callback && callback(error, data);
+        } else {
+            callback(error);
         }
     });
 }
