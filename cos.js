@@ -71,7 +71,7 @@ COS.prototype = {
     rename: file.rename,
     ls: file.list,
     del: file.del,
-    zip: file.compress,
+    //zip: file.compress,
     mkdir: file.mkdir,
     rmdir: file.rmdir,
     setDirMeta: file.setDirMeta,
