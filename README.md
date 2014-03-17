@@ -192,13 +192,13 @@ cos.upload(localFile).addTextMask(text, config).to(bucketUrl, callback);
 ```
 `text` 水印文字  
 `config` = {  
-`WMAlign` 水印的位置， 1~9。按照就九宫格的顺序。  
-`WMOffsetX` 水印文字的X坐标偏移  
-`WMOffsetY` 水印文字的Y坐标偏移  
-`WMColor` 水印文字的颜色，格式 RGBA。例如: `#ff00007f`  
-`WMFontType` 水印文字类型，目前只有**仿宋**，比较坑爹...  
-`WMFontSize` 水印文字大小，默认是16，单位px  
-`WMDegree` 水印文字旋转角度，默认是0  
+`align` 水印的位置， 1~9。按照就九宫格的顺序。 默认值是 9，在右下角位置。
+`x` 水印文字的X坐标偏移
+`y` 水印文字的Y坐标偏移
+`color` 水印文字的颜色，格式 RGBA。例如: `#ff00007f`
+`font` 水印文字类型，目前只有**仿宋** (据说还在申请字体版权)
+`size` 水印文字大小，默认是16，单位px
+`degree` 水印文字旋转角度，默认是0
 } 
 
 
@@ -208,9 +208,9 @@ cos.upload(localFile).addImageMask(bucketUrl, config).to(bucketUrl, callback);
 ```
 `bucketUrl` 水印的bucketUrl  
 `config` = {  
-`WMAlign` 水印的位置， 1~9。按照就九宫格的顺序。  
-`WMImgOffsetX` 水印的X坐标偏移  
-`WMImgOffsetY` 水印的Y坐标偏移  
+`align` 水印的位置， 1~9。按照就九宫格的顺序。 默认值是 9，在右下角位置。
+`x` 水印的X坐标偏移
+`y` 水印的Y坐标偏移
 } 
 
 ###上传压缩文件混合用法

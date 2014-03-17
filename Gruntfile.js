@@ -26,13 +26,13 @@ module.exports = function (grunt) {
         },
 
         nodeunit: {
-            cos: 'test/cos_test.js',
-            bucket: 'test/bucket_test.js',
-            bucketuri: 'test/bucketuri_test.js',
-            file: 'test/file_test.js',
-            prototype: 'test/prototype_test.js',
-            sign: 'test/sign_test.js',
-            upload: 'test/upload_test.js'
+            cos: 'node_modules/cos-sdk-test/cos_test.js',
+            bucket: 'node_modules/cos-sdk-test/bucket_test.js',
+            bucketuri: 'node_modules/cos-sdk-test/bucketuri_test.js',
+            file: 'node_modules/cos-sdk-test/file_test.js',
+            prototype: 'node_modules/cos-sdk-test/prototype_test.js',
+            sign: 'node_modules/cos-sdk-test/sign_test.js',
+            upload: 'node_modules/cos-sdk-test/upload_test.js'
         }
     });
 
