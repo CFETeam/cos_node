@@ -179,12 +179,25 @@ cos.upload(localFile).compress().to(bucketUrl, callback);
 默认质量是 85
 
 ###上传文件并且缩放
+上传并缩放图片，缩放支持等比缩放和拉伸缩放。 P.S.此接口在 `0.2.0` 版本更新，接口不兼容以前的版本
+
 ```javascript
-cos.upload(localFile).resize(type, width, height).to(bucketUrl, callback);
+cos.upload(localFile).resize(width, height, stretch).to(bucketUrl, callback);
 ```
-`type` 缩放的方式，0 = 不进行缩放， 1 = 等比缩放， 2 = 缩放并裁剪 3 = 拉伸缩放（可能会导致图片被压扁或拉伸）。 默认是不进行缩放。  
 `width` 新的宽度  
-`height` 新的高度
+`height` 新的高度  
+`stretch` 是否进行拉伸缩放，默认是 `false` , 等比缩放
+
+###上传并且进行图片裁剪
+上传并裁剪图片，在`x`, `y`坐标开始，裁剪一个`width` x `height` 的图片。 `0.2.0 added`
+```javascript
+cos.upload(localFile).crop(x, y, width, height).to(bucketUrl, callback);
+```
+
+`x` 裁剪起始X坐标  
+`y` 裁剪起始Y坐标  
+`width` 裁剪的尺寸  
+`height` 裁剪的尺寸  
 
 ###上传文件并且添加文字水印
 ```javascript
@@ -227,11 +240,11 @@ cos.convert(bucketUrl).compress().to(bucketUrl, callback);
 和upload上传接口一样同时支持，压缩，缩放，水印等接口。具体的参数用法参考 [upload API][5].
 
 >cos.convert(bucketUrl).**compress()**  
->cos.convert(bucketUrl).**resize(*type, width, height*)**  
+>cos.convert(bucketUrl).**resize(*width, height, stretch*)**  
+>cos.convert(bucketUrl).**crop(*x, y, width, height*)** `0.2.0 added`  
 >cos.convert(bucketUrl).**addImageMask(*bucketUrl, config*)**  
 >cos.convert(bucketUrl).**addTextMask(*text, config*)**  
 >cos.convert(bucketUrl).**to(*bucketUrl, callback*)**
-
 
 ## Callback 格式
 统一的回调参数格式
