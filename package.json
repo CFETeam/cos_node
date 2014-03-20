@@ -1,6 +1,6 @@
 {
   "name": "cos-sdk",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Tencent COS SDK.",
   "main": "cos.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "grunt-contrib-watch": "~0.5.3",
     "nodeunit": "~0.8.2",
     "grunt-contrib-nodeunit": "~0.2.2",
-    "cos-sdk-test": "0.0.2"
+    "cos-sdk-test": "0.0.3"
   },
   "author": "PuterJam",
   "readmeFilename": "README.md",

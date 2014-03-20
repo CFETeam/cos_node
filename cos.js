@@ -32,10 +32,14 @@ var Sign = require('./lib/sign'),
     initOpt = require("./lib/util").initOpt;
 
 
-var COS_HOST = "cosapi.myqcloud.com";
+/**
+ * cos api host
+ * @type {string}
+ */
+var cos_host = "cosapi.myqcloud.com";
 //COS_HOST_INNER = "cosapi.tencentyun.com"; //用于测试环境测试
 
-var cosToken;
+//var cosToken;
 
 /**
  * 初始化COS接口
@@ -60,7 +64,7 @@ var COS = function (Obj) {
     this._debugger = false;
 
     //cos api 地址
-    this._host = COS_HOST;
+    //this._host = cos_host;
 
     return true;
 };
@@ -94,15 +98,15 @@ COS.prototype = {
         this._debugger = true;
     },
 
-    /**
-     * 设置cos api的接口url，这个接口仅提供给腾讯程序猿内网调试用
-     *
-     * @param {string} url      cos api的url地址，默认是 cosapi.myqcloud.com
-     * @private
-     */
-    setHost: function (url) {
-        this._host = url;
-    },
+//    /**
+//     * 设置cos api的接口url，这个接口仅提供给腾讯程序猿内网调试用
+//     *
+//     * @param {string} url      cos api的url地址，默认是 cosapi.myqcloud.com
+//     * @private
+//     */
+//    setHost: function (url) {
+//        this._host = url;
+//    },
 
     /**
      * 对 api 地址进行签名认证
@@ -149,7 +153,7 @@ COS.prototype = {
         var method = method.toLowerCase() || "get",
             opt = opt || {},
             uri = this._signUrl(api, queryString),
-            requestUrl = ["http://", this._host, uri].join("");
+            requestUrl = ["http://", COS.getHost(), uri].join("");
 
         //如果开启调试模式就显示出cos的请求url，方便定位问题
         if (this._debugger) {
@@ -179,6 +183,23 @@ COS.prototype = {
  */
 COS.getContext = function (Obj) {
     return new COS(Obj);
+}
+
+/**
+ * 设置cos api的接口url，这个接口仅提供给腾讯程序猿内网调试用
+ *
+ * @param {string} domain      cos api的域名地址，默认是 cosapi.myqcloud.com
+ */
+COS.setHost = function(domain){
+    cos_host = domain;
+}
+
+/**
+ * 获取当前的cos api host域名
+ * @returns {string}
+ */
+COS.getHost = function(){
+    return cos_host;
 }
 
 //输出 cos 的接口
