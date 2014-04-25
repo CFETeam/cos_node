@@ -113,10 +113,9 @@ COS.prototype = {
      *
      * @param   {string} apiUrl       需要签名的url地址
      * @param   {object} queryString  url地址的参数
-     * @private
      * @returns {string}              签名后的url地址
      */
-    _signUrl: function (apiUrl, queryString) {
+    signUrl: function (apiUrl, queryString) {
         var uri = url.parse(apiUrl, true),
             queryString = queryString || {};
 
@@ -152,7 +151,7 @@ COS.prototype = {
 
         var method = method.toLowerCase() || "get",
             opt = opt || {},
-            uri = this._signUrl(api, queryString),
+            uri = this.signUrl(api, queryString),
             requestUrl = ["http://", COS.getHost(), uri].join("");
 
         //如果开启调试模式就显示出cos的请求url，方便定位问题
@@ -166,7 +165,7 @@ COS.prototype = {
                 try {
                     var data = JSON.parse(body);
                 } catch (e) {
-                    error = new Error("返回无效的json数据格式" + body);
+                    error = new Error("返回无效的json数据格式:" + body);
                 }
                 callback && callback(error, data);
             } else {
