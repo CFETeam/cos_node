@@ -161,7 +161,7 @@ cos.stat(bucketUrl, callback);
  * @param {object} queryString 下载地址附加的query string
  * @returns {string}
  */
-cos.stat(bucketUrl, signed, queryString); //return 下载url
+cos.url(bucketUrl, signed, queryString); //return 下载url
 ```
 如果bucket的属性是私有读写，并且希望单个文件被访问或下载，需要 **`signed` == `true`** ，来把下载url进行一次签名。
 
